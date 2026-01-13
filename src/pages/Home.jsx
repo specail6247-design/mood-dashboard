@@ -23,20 +23,23 @@ export default function Home() {
 
   const handleImageSelect = async (file) => {
     // 0. Validate File
+    console.log("File selected:", file);
     if (!file || !file.type.startsWith('image/')) {
         setError("이미지 파일만 업로드할 수 있습니다.");
         return;
     }
 
+    setLoading(true); // Show loader immediately even before checks to verify interaction
+
     // 1. Check Rate Limit
     if (!checkQuota()) {
+      setLoading(false);
       setError(`오늘의 무료 분석 횟수(${limit}회)를 모두 소진했습니다.\n내일 다시 방문해주세요!`);
       return;
     }
 
     setImage(file);
     setImageSrc(URL.createObjectURL(file));
-    setLoading(true);
     setError(null);
 
     let locData = { text: "알 수 없는 장소", fullInfo: "Location unknown" };

@@ -25,7 +25,6 @@ export default function ImageUpload({ onImageSelect }) {
   };
 
   const handleChange = (e) => {
-    e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       onImageSelect(e.target.files[0]);
     }
