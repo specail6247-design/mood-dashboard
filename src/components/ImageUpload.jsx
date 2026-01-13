@@ -34,7 +34,9 @@ export default function ImageUpload({ onImageSelect }) {
   return (
     <div
       className={`relative w-full aspect-[4/3] max-w-md mx-auto rounded-3xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer group
-        ${dragActive ? 'border-brand-500 bg-brand-50' : 'border-slate-200 hover:border-brand-300 hover:bg-slate-50/50'}`}
+        ${dragActive 
+          ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20' 
+          : 'border-slate-200 dark:border-slate-700 hover:border-brand-300 dark:hover:border-brand-500 hover:bg-slate-50/50 dark:hover:bg-slate-800/50'}`}
       onDragEnter={handleDrag}
       onDragLeave={handleDrag}
       onDragOver={handleDrag}
@@ -49,13 +51,13 @@ export default function ImageUpload({ onImageSelect }) {
         onChange={handleChange}
       />
       
-      <div className="flex flex-col items-center gap-4 text-slate-400 group-hover:text-brand-500 transition-colors">
-        <div className="p-4 bg-white rounded-full shadow-sm group-hover:shadow-md transition-all group-hover:scale-110">
+      <div className="flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 group-hover:text-brand-500 dark:group-hover:text-brand-400 transition-colors">
+        <div className="p-4 bg-white dark:bg-slate-800 rounded-full shadow-sm group-hover:shadow-md transition-all group-hover:scale-110">
           <Upload className="w-8 h-8" />
         </div>
         <div className="text-center">
-          <p className="font-medium text-slate-600">사진을 올려주세요</p>
-          <p className="text-xs text-slate-400 mt-1">또는 여기로 끌어다 놓으세요</p>
+          <p className="font-medium text-slate-600 dark:text-slate-300">사진을 올려주세요</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">또는 여기로 끌어다 놓으세요</p>
         </div>
       </div>
     </div>
