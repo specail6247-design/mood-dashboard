@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const DAILY_LIMIT = 5;
+const DAILY_LIMIT = 3;
 
 export function useRateLimiter() {
   const [remaining, setRemaining] = useState(() => {
