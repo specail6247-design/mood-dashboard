@@ -19,35 +19,32 @@ export async function getFormattedLocation() {
       (error) => {
         console.error("Geolocation error:", error);
         reject(error);
-      }
+      },
+      { timeout: 5000 } // 5 seconds timeout
     );
   });
 }
 
 async function fetchWeather(lat, lon) {
-  try {
-    const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
-    );
-    const data = await response.json();
-    
-    // Simple reverse geocoding is hard without key, so we'll skip city name or use coordinates generic.
-    // Or we can use a free reverse geocoding API like bigdatacloud if wanted, but keep it simple first.
-    // Let's just return condition and temp.
-    
-    const temp = Math.round(data.current.temperature_2m);
-    const code = data.current.weather_code;
-    const condition = getWeatherCondition(code);
-    
-    return {
-      text: `${condition}, ${temp}°C`,
-      latitude: lat,
-      longitude: lon,
-      fullInfo: `Lat: ${lat.toFixed(2)}, Lon: ${lon.toFixed(2)}, ${condition}, ${temp}°C`
-    };
-  } catch (err) {
-    throw err;
-  }
+  const response = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+  );
+  const data = await response.json();
+  
+  // Simple reverse geocoding is hard without key, so we'll skip city name or use coordinates generic.
+  // Or we can use a free reverse geocoding API like bigdatacloud if wanted, but keep it simple first.
+  // Let's just return condition and temp.
+  
+  const temp = Math.round(data.current.temperature_2m);
+  const code = data.current.weather_code;
+  const condition = getWeatherCondition(code);
+  
+  return {
+    text: `${condition}, ${temp}°C`,
+    latitude: lat,
+    longitude: lon,
+    fullInfo: `Lat: ${lat.toFixed(2)}, Lon: ${lon.toFixed(2)}, ${condition}, ${temp}°C`
+  };
 }
 
 function getWeatherCondition(code) {
