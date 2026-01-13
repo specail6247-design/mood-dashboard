@@ -22,9 +22,15 @@ export default function Home() {
   const { remaining, checkQuota, incrementQuota, limit } = useRateLimiter();
 
   const handleImageSelect = async (file) => {
-    // 0. Check Rate Limit
+    // 0. Validate File
+    if (!file || !file.type.startsWith('image/')) {
+        setError("이미지 파일만 업로드할 수 있습니다.");
+        return;
+    }
+
+    // 1. Check Rate Limit
     if (!checkQuota()) {
-      alert(`오늘의 무료 분석 횟수(${limit}회)를 모두 소진했습니다.\n내일 다시 방문해주세요!`);
+      setError(`오늘의 무료 분석 횟수(${limit}회)를 모두 소진했습니다.\n내일 다시 방문해주세요!`);
       return;
     }
 
@@ -111,7 +117,7 @@ export default function Home() {
         <div className="animate-in fade-in zoom-in duration-500">
            <ImageUpload onImageSelect={handleImageSelect} />
            {error && (
-               <div className="text-red-400 text-center text-sm mt-4 font-medium animate-in fade-in">
+               <div className="bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 text-center text-sm mt-4 p-3 rounded-lg font-medium animate-in fade-in border border-red-100 dark:border-red-900/50">
                    {error}
                </div>
            )}
